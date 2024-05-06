@@ -1,0 +1,311 @@
+export type StateData = {
+  state: string;
+  daysInTransit: string | number;
+  carrier: string;
+  notes: string;
+};
+
+export const timeInTransitByState: Array<StateData> = [
+  {
+    state: "AL",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Only to ABC Stores (form required)",
+  },
+  {
+    state: "AK",
+    daysInTransit: "6-7+",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "AZ",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "AR",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "CA",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "CO",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "CT",
+    daysInTransit: 1,
+    carrier: "GLS",
+    notes: "Van delivery - delivery days are Tues/Fri",
+  },
+  {
+    state: "DC",
+    daysInTransit: 1,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "DE",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "FL",
+    daysInTransit: 3,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "GA",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "HI",
+    daysInTransit: "6-7+",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "ID",
+    daysInTransit: 5,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "IL",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "IN",
+    daysInTransit: 2,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "IA",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "KS",
+    daysInTransit: "3-4",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "KY",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "LA",
+    daysInTransit: 3,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "ME",
+    daysInTransit: "1-2",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "MD",
+    daysInTransit: "1-2",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "MA",
+    daysInTransit: 1,
+    carrier: "GLS",
+    notes: "Van delivery - delivery days are Tues/Thurs",
+  },
+  {
+    state: "MI",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "MN",
+    daysInTransit: 3,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "MS",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "MO",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "MT",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "NE",
+    daysInTransit: "3-4",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "NV",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "NH",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "NJ",
+    daysInTransit: 1,
+    carrier: "GLS",
+    notes: "Van delivery - delivery days are Mon/Thurs",
+  },
+  {
+    state: "NM",
+    daysInTransit: "3-4",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "NC",
+    daysInTransit: 2,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "ND",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "OH",
+    daysInTransit: 2,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "OK",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "OR",
+    daysInTransit: 5,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "PA",
+    daysInTransit: "1-2",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "RI",
+    daysInTransit: 1,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "SC",
+    daysInTransit: 2,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "SD",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "TN",
+    daysInTransit: 2,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "TX",
+    daysInTransit: "3-4",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "UT",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "VT",
+    daysInTransit: 1,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "VA",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "WA",
+    daysInTransit: 5,
+    carrier: "FedEx",
+    notes: "",
+  },
+  {
+    state: "WV",
+    daysInTransit: "N/A",
+    carrier: "N/A",
+    notes: "No shipments allowed",
+  },
+  {
+    state: "WI",
+    daysInTransit: "2-3",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+  {
+    state: "WY",
+    daysInTransit: "4-5",
+    carrier: "FedEx",
+    notes: "Depending on Zip Code",
+  },
+];
+
+export const states = timeInTransitByState.map((data) => data.state);
