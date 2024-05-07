@@ -234,8 +234,29 @@
   }
 }
 
-.center {
-  width: 50%;
+.tool {
+  width: 600px;
   display: flex;
   align-items: center;
+  border: solid 1px plum;
+}
+
+.state {
+  margin-bottom: 1rem;
+}
+
+.fields {
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* border: solid 1px lime; */
+}
+
+.regionInfo {
+  border: 1px solid salmon;
+}
+
+.rate {
+  height: 200px;
 }
