@@ -6,6 +6,8 @@ import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import { timeInTransitByState, StateData, states } from "./data/stateData";
+import { stateToZone } from "./data/stateToZone";
+import { calculateShippingRateBottles } from "./calculators";
 import styles from "./page.module.css";
 
 const Home = () => {
@@ -17,7 +19,14 @@ const Home = () => {
 
   const [shippingRate, setShippingRate] = useState<any>(null);
 
-  const canCalculate = !!(state && (bottleCount || magCount)); // also add logic about being able to ship there
+  const validState = stateData && stateData.notes !== "No shipments allowed";
+
+  const [zone, setZone] = useState<number | null>(null);
+
+  const canCalculate = !!(state && (bottleCount || magCount)) && validState;
+
+  const daysInTransitCopy =
+    stateData && stateData.daysInTransit === 1 ? "day" : "days";
 
   useEffect(() => {
     if (!state) return;
@@ -26,6 +35,7 @@ const Home = () => {
       timeInTransitByState.find((data) => data.state === state) || "";
 
     setStateData(timeInTransit);
+    setZone(stateToZone[state].ZONE);
   }, [state]);
 
   return (
@@ -37,8 +47,10 @@ const Home = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log({ bottleCount, magCount, state });
-            setShippingRate("testing!");
+            console.log({ bottleCount, magCount, state, zone });
+            setShippingRate(
+              calculateShippingRateBottles(Number(bottleCount), `${zone}`)
+            );
           }}
         >
           <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -76,18 +88,28 @@ const Home = () => {
             </div>
           </FormControl>
         </form>
-        <div className={styles.regionInfo}>
-          {stateData ? (
+        <div>
+          {stateData && !validState ? <p>No shipments allowed</p> : null}
+          {stateData && validState ? (
             <>
-              <div>Days in transit: {stateData.daysInTransit}</div>
-              {stateData.notes ? <div>{stateData.notes}</div> : null}
+              <div>
+                {stateData.daysInTransit} {daysInTransitCopy} in transit
+              </div>
+              {stateData.notes ? (
+                <div className={styles.notes}>{stateData.notes}</div>
+              ) : null}
             </>
           ) : null}
         </div>
         <div />
       </div>
       <div className={styles.rate}>
-        {shippingRate ? <>Shipping Rate: {shippingRate}</> : null}
+        {shippingRate ? (
+          <>
+            Shipping Rate: {shippingRate.totalCost} | Shipping and Tax:{" "}
+            {shippingRate.totalCostWithTax}
+          </>
+        ) : null}
       </div>
       <div />
     </main>
