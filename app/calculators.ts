@@ -1,3 +1,4 @@
+import currency from "currency.js";
 import { materialRatesByBottleCount } from "./data/materialRates";
 import { standardRatesByZone } from "./data/shippingRates/standardShippingRates";
 
@@ -7,7 +8,16 @@ type GroupQty = {
 
 type Breakdown = Array<Record<string, GroupQty>>;
 
-//23
+type Count = string;
+
+type BreakdownWithCosts = {
+  Count: {
+    quantity: number;
+    materialName: string;
+    materialCost: string;
+    shippingRate: string;
+  };
+};
 
 const determineBreakdown = (bottleCount: number) => {
   let count = bottleCount;
@@ -36,8 +46,6 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
 
     const bottleCount = keys[0];
 
-    console.log({ zone, standardRatesByZone });
-
     const newBox = {
       [bottleCount]: {
         quantity: box[bottleCount].quantity,
@@ -52,20 +60,25 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
 };
 
 const sumUpCosts = (breakdown: any) => {
-  let total = "";
+  let total = currency("");
 
-  breakdown.forEach((breakdown: any) => {
+  breakdown.forEach((breakdown: BreakdownWithCosts) => {
     const packageCategory: any = Object.values(breakdown)[0];
 
     const { quantity, materialCost, shippingRate } = packageCategory;
-    const boxTotal = materialCost + shippingRate; // need to just curreny.js and also multipl by quantity but just testing something here
 
-    console.log({ boxTotal, materialCost, shippingRate, packageCategory });
+    const boxTotal = currency(materialCost).add(shippingRate);
 
-    total = total + boxTotal;
+    const allBoxes = boxTotal.multiply(quantity);
+
+    total = total.add(allBoxes);
   });
 
-  return total;
+  const beforeTax = total.format();
+
+  const withTax = total.multiply(1.08875).format();
+
+  return { beforeTax, withTax };
 };
 
 // 750s
@@ -78,16 +91,11 @@ export const calculateShippingRateBottles = (
 
   const breakdownWithCosts = addCostsToBreakdown(breakdown, zone);
 
-  const totalCost = sumUpCosts(breakdownWithCosts);
-
-  const totalCostWithTax = sumUpCosts(breakdownWithCosts);
-  // do a thing that adds tax
+  const { beforeTax, withTax } = sumUpCosts(breakdownWithCosts);
 
   // also add support for expedited shipping
 
-  console.log({ totalCost });
-
-  return { totalCost: "$100", totalCostWithTax: "$105" };
+  return { totalCost: beforeTax, totalCostWithTax: withTax };
 };
 
 // mags
