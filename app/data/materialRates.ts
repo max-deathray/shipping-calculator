@@ -79,3 +79,42 @@ export const materialRatesByBottleCount: Record<string, MaterialInfo> = {
     cost: "$10.00",
   },
 };
+
+export const materialRatesByMagCount: Record<string, MaterialInfo> = {
+  "1": {
+    code: "SHIPMAG1",
+    package: "mag1",
+    name: "Shipper-Single Magnum",
+    cost: "$6.50",
+  },
+  "2": {
+    code: "SHIPMAG2",
+    package: "mag3",
+    name: "Shipper-2-3 Magnum",
+    cost: "$11.50",
+  },
+  "3": {
+    code: "SHIPMAG2",
+    package: "mag3",
+    name: "Shipper-2-3 Magnum",
+    cost: "$11.50",
+  },
+  "4": {
+    code: "SHIPMAG3-6",
+    package: "mag6",
+    name: "Shipper-4-6 Magnum",
+    cost: "$19.50",
+  },
+  "5": {
+    code: "SHIPMAG3-6",
+    package: "mag6",
+    name: "Shipper-4-6 Magnum",
+    cost: "$19.50",
+  },
+  "6": {
+    code: "SHIPMAG3-6",
+    package: "mag6",
+    name: "Shipper-4-6 Magnum",
+    cost: "$19.50",
+  },
+};

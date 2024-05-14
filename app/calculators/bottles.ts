@@ -1,6 +1,6 @@
 import currency from "currency.js";
-import { materialRatesByBottleCount } from "./data/materialRates";
-import { standardRatesByZone } from "./data/shippingRates/standardShippingRates";
+import { materialRatesByBottleCount } from "../data/materialRates";
+import { standardRatesByZone } from "../data/shippingRates/standardShippingRates";
 
 type GroupQty = {
   quantity: number;
@@ -8,16 +8,14 @@ type GroupQty = {
 
 type Breakdown = Array<Record<string, GroupQty>>;
 
-type Count = string;
-
 type BreakdownWithCosts = {
-  Count: {
-    quantity: number;
-    materialName: string;
-    materialCost: string;
-    shippingRate: string;
-  };
+  quantity: number;
+  materialName: string;
+  materialCost: string;
+  shippingRate: string;
 };
+
+type BreakdownObject = Record<string, BreakdownWithCosts>;
 
 const determineBreakdown = (bottleCount: number) => {
   let count = bottleCount;
@@ -26,7 +24,7 @@ const determineBreakdown = (bottleCount: number) => {
   const breakdown: Breakdown = [];
 
   for (let i = 0; i < groups.length; i++) {
-    const currentGroup = groups[i]; // 12
+    const currentGroup = groups[i];
 
     while (count >= currentGroup) {
       const quantityOfCurrentGroup = Math.floor(count / currentGroup);
@@ -59,10 +57,10 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
   });
 };
 
-const sumUpCosts = (breakdown: any) => {
+export const sumUpCosts = (breakdown: Array<BreakdownObject>) => {
   let total = currency("");
 
-  breakdown.forEach((breakdown: BreakdownWithCosts) => {
+  breakdown.forEach((breakdown: BreakdownObject) => {
     const packageCategory: any = Object.values(breakdown)[0];
 
     const { quantity, materialCost, shippingRate } = packageCategory;
@@ -74,11 +72,9 @@ const sumUpCosts = (breakdown: any) => {
     total = total.add(allBoxes);
   });
 
-  const beforeTax = total.format();
+  // const withTax = total.multiply(1.08875).format();
 
-  const withTax = total.multiply(1.08875).format();
-
-  return { beforeTax, withTax };
+  return total;
 };
 
 // 750s
@@ -91,20 +87,9 @@ export const calculateShippingRateBottles = (
 
   const breakdownWithCosts = addCostsToBreakdown(breakdown, zone);
 
-  const { beforeTax, withTax } = sumUpCosts(breakdownWithCosts);
+  const total = sumUpCosts(breakdownWithCosts);
 
   // also add support for expedited shipping
 
-  return { totalCost: beforeTax, totalCostWithTax: withTax };
-};
-
-// mags
-const calculateShippingRateMags = (
-  bottleCount: number,
-  zone: string,
-  serviceLevel: string
-): string => {
-  // take number
-
-  return "";
+  return total;
 };

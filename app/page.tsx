@@ -7,7 +7,8 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import { timeInTransitByState, StateData, states } from "./data/stateData";
 import { stateToZone } from "./data/stateToZone";
-import { calculateShippingRateBottles } from "./calculators";
+import { calculateShippingRateBottles } from "./calculators/bottles";
+import { calculateShippingRateMags } from "./calculators/mags";
 import styles from "./page.module.css";
 
 const Home = () => {
@@ -18,6 +19,8 @@ const Home = () => {
   const [magCount, setMagCount] = useState<string>("");
 
   const [shippingRate, setShippingRate] = useState<any>(null);
+
+  console.log({ shippingRate });
 
   const validState = stateData && stateData.notes !== "No shipments allowed";
 
@@ -48,9 +51,15 @@ const Home = () => {
           onSubmit={(e) => {
             e.preventDefault();
             console.log({ bottleCount, magCount, state, zone });
-            setShippingRate(
-              calculateShippingRateBottles(Number(bottleCount), `${zone}`)
+            const magTotal = calculateShippingRateMags(
+              Number(magCount),
+              `${zone}`
             );
+            const bottleTotal = calculateShippingRateBottles(
+              Number(bottleCount),
+              `${zone}`
+            );
+            setShippingRate(magTotal.add(bottleTotal));
           }}
         >
           <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -106,8 +115,8 @@ const Home = () => {
       <div className={styles.rate}>
         {shippingRate ? (
           <>
-            Shipping Rate: {shippingRate.totalCost} | Shipping and Tax:{" "}
-            {shippingRate.totalCostWithTax}
+            Shipping Rate: {shippingRate.format()} | Shipping and Tax:
+            {shippingRate.multiply(1.08875).format()}
           </>
         ) : null}
       </div>
