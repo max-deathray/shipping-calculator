@@ -20,8 +20,6 @@ const Home = () => {
 
   const [shippingRate, setShippingRate] = useState<any>(null);
 
-  console.log({ shippingRate });
-
   const validState = stateData && stateData.notes !== "No shipments allowed";
 
   const [zone, setZone] = useState<number | null>(null);
@@ -43,9 +41,6 @@ const Home = () => {
 
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>Shipping Calculator</p>
-      </div>
       <div className={styles.tool}>
         <form
           onSubmit={(e) => {
@@ -69,7 +64,12 @@ const Home = () => {
                 defaultValue=""
                 id="state"
                 label="state"
-                onChange={(e: SelectChangeEvent) => setState(e.target.value)}
+                onChange={(e: SelectChangeEvent) => {
+                  setBottleCount("");
+                  setMagCount("");
+                  setShippingRate(null);
+                  setState(e.target.value);
+                }}
               >
                 {states.map((state) => (
                   <MenuItem key={state} value={state}>
@@ -82,14 +82,24 @@ const Home = () => {
                 id="bottle-count"
                 label="Bottles"
                 className={styles.input}
-                onChange={(e) => setBottleCount(e.target.value)}
+                value={bottleCount}
+                disabled={!stateData || !validState}
+                onChange={(e) => {
+                  setBottleCount(e.target.value);
+                  setShippingRate(null);
+                }}
                 helperText="750ml or smaller"
               />
               <TextField
                 id="mag-count"
                 label="Mags"
+                value={magCount}
+                disabled={!stateData || !validState}
                 className={styles.input}
-                onChange={(e) => setMagCount(e.target.value)}
+                onChange={(e) => {
+                  setMagCount(e.target.value);
+                  setShippingRate(null);
+                }}
               />
               <Button type="submit" variant="outlined" disabled={!canCalculate}>
                 Calculate Rate
@@ -97,11 +107,16 @@ const Home = () => {
             </div>
           </FormControl>
         </form>
-        <div>
+
+        <div />
+      </div>
+      <div className={styles.data}>
+        <div className={styles.shippingNotes}>
           {stateData && !validState ? <p>No shipments allowed</p> : null}
           {stateData && validState ? (
             <>
               <div>
+                <h5>Shipping to {stateData.state}</h5>
                 {stateData.daysInTransit} {daysInTransitCopy} in transit
               </div>
               {stateData.notes ? (
@@ -110,14 +125,23 @@ const Home = () => {
             </>
           ) : null}
         </div>
-        <div />
-      </div>
-      <div className={styles.rate}>
         {shippingRate ? (
-          <>
-            Shipping Rate: {shippingRate.format()} | Shipping and Tax:
-            {shippingRate.multiply(1.08875).format()}
-          </>
+          <div className={styles.rate}>
+            <p>Standard Rate: {shippingRate.format()}</p>
+            <p>with Tax: {shippingRate.multiply(1.08875).format()}</p>
+            <Button
+              style={{
+                borderColor: "#6262ac",
+                color: "#6262ac",
+                marginTop: "5px",
+              }}
+              variant="outlined"
+              disabled={!canCalculate}
+              onClick={() => console.log("hey!")}
+            >
+              Show Expedited Rates
+            </Button>
+          </div>
         ) : null}
       </div>
       <div />

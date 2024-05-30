@@ -72,8 +72,6 @@ export const sumUpCosts = (breakdown: Array<BreakdownObject>) => {
     total = total.add(allBoxes);
   });
 
-  // const withTax = total.multiply(1.08875).format();
-
   return total;
 };
 
