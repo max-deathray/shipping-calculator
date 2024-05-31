@@ -178,19 +178,11 @@
 }
 
 .data {
-  min-height: 200px;
+  min-height: 300px;
   width: 300px;
   padding: 2rem;
   border: 1px solid gray;
   border-radius: 4px;
-}
-
-.shippingNotes {
-  /* border: 1px solid magenta; */
-}
-
-.rate {
-  /* border: 1px solid lime; */
 }
 
 .shippingNotes + .rate {

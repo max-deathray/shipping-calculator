@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import { timeInTransitByState, StateData, states } from "./data/stateData";
 import { stateToZone } from "./data/stateToZone";
-import { calculateShippingRateBottles } from "./calculators/bottles";
+import { calculateShippingRateBottles, Rates } from "./calculators/bottles";
 import { calculateShippingRateMags } from "./calculators/mags";
 import styles from "./page.module.css";
 
@@ -18,7 +18,9 @@ const Home = () => {
   const [bottleCount, setBottleCount] = useState<string>("");
   const [magCount, setMagCount] = useState<string>("");
 
-  const [shippingRate, setShippingRate] = useState<any>(null);
+  const [shippingRate, setShippingRate] = useState<Rates | null>(null);
+
+  console.log({ shippingRate });
 
   const validState = stateData && stateData.notes !== "No shipments allowed";
 
@@ -54,7 +56,12 @@ const Home = () => {
               Number(bottleCount),
               `${zone}`
             );
-            setShippingRate(magTotal.add(bottleTotal));
+            setShippingRate({
+              standard: magTotal.standard.add(bottleTotal.standard),
+              express: magTotal.express.add(bottleTotal.express),
+              twoDay: magTotal.twoDay.add(bottleTotal.twoDay),
+              overnight: magTotal.overnight.add(bottleTotal.overnight),
+            });
           }}
         >
           <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -125,10 +132,10 @@ const Home = () => {
             </>
           ) : null}
         </div>
-        {shippingRate ? (
+        {shippingRate?.standard ? (
           <div className={styles.rate}>
-            <p>Standard Rate: {shippingRate.format()}</p>
-            <p>with Tax: {shippingRate.multiply(1.08875).format()}</p>
+            <p>Standard Rate: {shippingRate.standard.format()}</p>
+            <p>with Tax: {shippingRate.standard.multiply(1.08875).format()}</p>
             <Button
               style={{
                 borderColor: "#6262ac",

@@ -1,4 +1,6 @@
-export const expressSaverRatesByZone = {
+import { RatesByZone } from "./standardShippingRates";
+
+export const expressSaverRatesByZone: RatesByZone = {
   "2": {
     "1": "$35.70",
     "2": "$37.50",

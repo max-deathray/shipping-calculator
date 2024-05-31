@@ -1,4 +1,6 @@
-export const twoDayRatesBy = {
+import { RatesByZone } from "./standardShippingRates";
+
+export const twoDayRatesByZone: RatesByZone = {
   "2": {
     "1": "$36.60",
     "2": "$38.40",
