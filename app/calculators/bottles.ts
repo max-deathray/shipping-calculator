@@ -11,21 +11,16 @@ type GroupQty = {
 
 type Breakdown = Array<Record<string, GroupQty>>;
 
-export type Rates = {
-  standard: currency;
-  express: currency;
-  twoDay: currency;
-  overnight: currency;
-};
+export type Rates = Record<string, currency | undefined>;
 
 type BreakdownWithCosts = {
   quantity: number;
   materialName: string;
   materialCost: string;
-  standardRate: string;
-  expressSaverRate: string;
-  twoDayRate: string;
-  overnightRate: string;
+  standard: string;
+  express?: string;
+  twoDay?: string;
+  overnight?: string;
 };
 
 type BreakdownObject = Record<string, BreakdownWithCosts>;
@@ -51,24 +46,28 @@ const determineBreakdown = (bottleCount: number) => {
   return breakdown;
 };
 
+// this could be consolidated with the helper on mags.ts
 const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
   return breakdown.map((box) => {
     const keys = Object.keys(box);
 
     const bottleCount = keys[0];
 
-    console.log({ overnightRatesByZone });
-
     const newBox = {
       [bottleCount]: {
         quantity: box[bottleCount].quantity,
         materialName: materialRatesByBottleCount[bottleCount].package,
         materialCost: materialRatesByBottleCount[bottleCount].cost,
-        standardRate: standardRatesByZone[zone][bottleCount],
-        expressSaverRate: expressSaverRatesByZone[zone][bottleCount],
-        twoDayRate: twoDayRatesByZone[zone][bottleCount],
-        overnightRate: overnightRatesByZone[zone][bottleCount],
-        // overightRates: "1.00",
+        standard: standardRatesByZone[zone][bottleCount],
+        ...(zone in expressSaverRatesByZone && {
+          express: expressSaverRatesByZone[zone][bottleCount],
+        }),
+        ...(zone in twoDayRatesByZone && {
+          twoDay: twoDayRatesByZone[zone][bottleCount],
+        }),
+        ...(zone in overnightRatesByZone && {
+          overnight: overnightRatesByZone[zone][bottleCount],
+        }),
       },
     };
 
@@ -77,43 +76,27 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
 };
 
 export const sumUpCosts = (breakdown: Array<BreakdownObject>) => {
-  let standard = currency("");
-  let express = currency("");
-  let twoDay = currency("");
-  let overnight = currency("");
+  let rates: Rates = {};
 
   breakdown.forEach((breakdown: BreakdownObject) => {
     const packageCategory: any = Object.values(breakdown)[0];
 
-    const {
-      quantity,
-      materialCost,
-      standardRate,
-      expressSaverRate,
-      twoDayRate,
-      overnightRate,
-    } = packageCategory;
+    const { quantity, materialCost, materialName, ...shippingRates } =
+      packageCategory;
 
-    const boxTotals = [
-      standardRate,
-      expressSaverRate,
-      twoDayRate,
-      overnightRate,
-    ];
+    for (const key in shippingRates) {
+      const shippingRate = shippingRates[key];
 
-    const boxTotalsWithMaterials = boxTotals.map((shippingRate) =>
-      currency(materialCost).add(shippingRate).multiply(quantity)
-    );
-
-    const [s, e, t, o] = boxTotalsWithMaterials;
-
-    standard = s;
-    express = e;
-    twoDay = t;
-    overnight = o;
+      const runningTotal = rates[key] || currency("");
+      rates[key] = runningTotal?.add(
+        currency(materialCost).add(shippingRate).multiply(quantity)
+      );
+    }
   });
 
-  return { standard, express, twoDay, overnight };
+  console.log({ rates });
+
+  return rates;
 };
 
 // 750s
@@ -127,9 +110,7 @@ export const calculateShippingRateBottles = (
 
   const rates = sumUpCosts(breakdownWithCosts);
 
-  // also add support for expedited shipping
-  // thinking maybe return an object with all the different rates
-  // and only show if the user wants to see?
+  console.log("Bottle rates", { rates });
 
   return rates;
 };

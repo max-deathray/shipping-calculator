@@ -1,5 +1,8 @@
 import { materialRatesByMagCount } from "../data/materialRates";
 import { standardRatesByZone } from "../data/shippingRates/standardShippingRates";
+import { expressSaverRatesByZone } from "../data/shippingRates/expressSaveRates";
+import { twoDayRatesByZone } from "../data/shippingRates/twoDayRates";
+import { overnightRatesByZone } from "../data/shippingRates/overnightRates";
 import { sumUpCosts } from "./bottles";
 
 type GroupQty = {
@@ -51,7 +54,16 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
         quantity: box[magCount].quantity,
         materialName: materialRatesByMagCount[magCount].package,
         materialCost: materialRatesByMagCount[magCount].cost,
-        shippingRate: standardRatesByZone[zone][bottleCount],
+        standard: standardRatesByZone[zone][bottleCount],
+        ...(zone in expressSaverRatesByZone && {
+          express: expressSaverRatesByZone[zone][bottleCount],
+        }),
+        ...(zone in twoDayRatesByZone && {
+          twoDay: twoDayRatesByZone[zone][bottleCount],
+        }),
+        ...(zone in overnightRatesByZone && {
+          overnight: overnightRatesByZone[zone][bottleCount],
+        }),
       },
     };
 
@@ -60,16 +72,16 @@ const addCostsToBreakdown = (breakdown: Breakdown, zone: string) => {
 };
 
 // mags
-export const calculateShippingRateMags = (
-  magCount: number,
-  zone: string
-  //   serviceLevel: string
-) => {
+export const calculateShippingRateMags = (magCount: number, zone: string) => {
   const breakdown = determineBreakdown(magCount);
 
   const breakdownWithCosts = addCostsToBreakdown(breakdown, zone);
 
-  const total = sumUpCosts(breakdownWithCosts);
+  console.log({ breakdownWithCosts });
 
-  return total;
+  const rates = sumUpCosts(breakdownWithCosts);
+
+  console.log("Mag rates", { rates });
+
+  return rates;
 };

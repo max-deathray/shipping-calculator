@@ -193,3 +193,15 @@
   font-size: 12px;
   font-style: italic;
 }
+
+.expeditedNotAvailable {
+  font-size: 10px;
+}
+
+.expeditedRates {
+  margin-top: 10px;
+}
+
+.testing {
+  color: #6262ac;
+}

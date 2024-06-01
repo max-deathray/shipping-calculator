@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import currency from "currency.js";
 import { InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
@@ -20,11 +21,11 @@ const Home = () => {
 
   const [shippingRate, setShippingRate] = useState<Rates | null>(null);
 
-  console.log({ shippingRate });
-
   const validState = stateData && stateData.notes !== "No shipments allowed";
 
   const [zone, setZone] = useState<number | null>(null);
+
+  const [displayExpedited, setDisplayExpedited] = useState<boolean>(false);
 
   const canCalculate = !!(state && (bottleCount || magCount)) && validState;
 
@@ -43,11 +44,12 @@ const Home = () => {
 
   return (
     <main className={styles.main}>
+      <h1>Shipping Calculator</h1>
       <div className={styles.tool}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log({ bottleCount, magCount, state, zone });
+
             const magTotal = calculateShippingRateMags(
               Number(magCount),
               `${zone}`
@@ -56,11 +58,28 @@ const Home = () => {
               Number(bottleCount),
               `${zone}`
             );
+
             setShippingRate({
-              standard: magTotal.standard.add(bottleTotal.standard),
-              express: magTotal.express.add(bottleTotal.express),
-              twoDay: magTotal.twoDay.add(bottleTotal.twoDay),
-              overnight: magTotal.overnight.add(bottleTotal.overnight),
+              ...((bottleTotal.standard || magTotal.standard) && {
+                standard: (magTotal.standard || currency("")).add(
+                  bottleTotal.standard || currency("")
+                ),
+              }),
+              ...((magTotal.express || bottleTotal.express) && {
+                express: (magTotal.express || currency("")).add(
+                  bottleTotal.express || currency("")
+                ),
+              }),
+              ...((magTotal.twoDay || bottleTotal.twoDay) && {
+                twoDay: (magTotal.twoDay || currency("")).add(
+                  bottleTotal.twoDay || currency("")
+                ),
+              }),
+              ...((magTotal.overnight || bottleTotal.overnight) && {
+                overnight: (magTotal.overnight || currency("")).add(
+                  bottleTotal.overnight || currency("")
+                ),
+              }),
             });
           }}
         >
@@ -75,6 +94,7 @@ const Home = () => {
                   setBottleCount("");
                   setMagCount("");
                   setShippingRate(null);
+                  setDisplayExpedited(false);
                   setState(e.target.value);
                 }}
               >
@@ -92,7 +112,7 @@ const Home = () => {
                 value={bottleCount}
                 disabled={!stateData || !validState}
                 onChange={(e) => {
-                  setBottleCount(e.target.value);
+                  setBottleCount(e.target.value.replace(/\D+/g, ""));
                   setShippingRate(null);
                 }}
                 helperText="750ml or smaller"
@@ -104,7 +124,7 @@ const Home = () => {
                 disabled={!stateData || !validState}
                 className={styles.input}
                 onChange={(e) => {
-                  setMagCount(e.target.value);
+                  setMagCount(e.target.value.replace(/\D+/g, ""));
                   setShippingRate(null);
                 }}
               />
@@ -136,18 +156,31 @@ const Home = () => {
           <div className={styles.rate}>
             <p>Standard Rate: {shippingRate.standard.format()}</p>
             <p>with Tax: {shippingRate.standard.multiply(1.08875).format()}</p>
-            <Button
-              style={{
-                borderColor: "#6262ac",
-                color: "#6262ac",
-                marginTop: "5px",
-              }}
-              variant="outlined"
-              disabled={!canCalculate}
-              onClick={() => console.log("hey!")}
-            >
-              Show Expedited Rates
-            </Button>
+            {shippingRate?.overnight ? (
+              <Button
+                style={{
+                  borderColor: "#6262ac",
+                  color: "#6262ac",
+                  marginTop: "10px",
+                }}
+                variant="outlined"
+                disabled={!canCalculate}
+                onClick={() => setDisplayExpedited((prev) => !prev)}
+              >
+                {displayExpedited ? "Hide" : "Show"} Expedited Rates
+              </Button>
+            ) : (
+              <p className={styles.expeditedNotAvailable}>
+                Expedited service not available.
+              </p>
+            )}
+            {displayExpedited ? (
+              <div className={styles.expeditedRates}>
+                <p>Express Saver: {shippingRate.express?.format()}</p>
+                <p>Two Day: {shippingRate.twoDay?.format()}</p>
+                <p>Overnight: {shippingRate.overnight?.format()}</p>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
