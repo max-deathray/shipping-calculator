@@ -27,6 +27,18 @@ const Home = () => {
 
   const [displayExpedited, setDisplayExpedited] = useState<boolean>(false);
 
+  const clearForm = () => {
+    setState("");
+    setZone(null);
+    setStateData("");
+    setBottleCount("");
+    setMagCount("");
+    setShippingRate(null);
+    setDisplayExpedited(false);
+  };
+
+  const clearButtonIsDisabled = !state && !bottleCount && !magCount;
+
   const canCalculate = !!(state && (bottleCount || magCount)) && validState;
 
   const daysInTransitCopy =
@@ -44,7 +56,7 @@ const Home = () => {
 
   return (
     <main className={styles.main}>
-      <h1>Shipping Calculator</h1>
+      <h1 className={styles.header}>Shipping Calculator</h1>
       <div className={styles.tool}>
         <form
           onSubmit={(e) => {
@@ -90,11 +102,9 @@ const Home = () => {
                 defaultValue=""
                 id="state"
                 label="state"
+                value={state}
                 onChange={(e: SelectChangeEvent) => {
-                  setBottleCount("");
-                  setMagCount("");
-                  setShippingRate(null);
-                  setDisplayExpedited(false);
+                  clearForm();
                   setState(e.target.value);
                 }}
               >
@@ -194,6 +204,16 @@ const Home = () => {
           </div>
         ) : null}
       </div>
+      <Button
+        style={{
+          marginTop: "10px",
+        }}
+        variant="outlined"
+        disabled={clearButtonIsDisabled}
+        onClick={() => clearForm()}
+      >
+        Clear
+      </Button>
       <div />
     </main>
   );
