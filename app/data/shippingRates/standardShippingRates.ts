@@ -1,6 +1,6 @@
 type RatesByCount = Record<string, string>;
 
-type RatesByZone = Record<string, RatesByCount>;
+export type RatesByZone = Record<string, RatesByCount>;
 
 export const standardRatesByZone: RatesByZone = {
   "2": {
