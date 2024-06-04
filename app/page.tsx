@@ -154,8 +154,18 @@ const Home = () => {
         </div>
         {shippingRate?.standard ? (
           <div className={styles.rate}>
-            <p>Standard Rate: {shippingRate.standard.format()}</p>
-            <p>with Tax: {shippingRate.standard.multiply(1.08875).format()}</p>
+            <p>
+              Standard Rate:{" "}
+              <span className={styles.bold}>
+                {shippingRate.standard.format()}
+              </span>
+            </p>
+            <p>
+              with Tax:{" "}
+              <span className={styles.bold}>
+                {shippingRate.standard.multiply(1.08875).format()}
+              </span>
+            </p>
             {shippingRate?.overnight ? (
               <Button
                 style={{
