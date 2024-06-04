@@ -179,8 +179,6 @@ const Home = () => {
             {shippingRate?.overnight ? (
               <Button
                 style={{
-                  borderColor: "#6262ac",
-                  color: "#6262ac",
                   marginTop: "10px",
                 }}
                 variant="outlined"
@@ -212,7 +210,7 @@ const Home = () => {
         disabled={clearButtonIsDisabled}
         onClick={() => clearForm()}
       >
-        Clear
+        Start over
       </Button>
       <div />
     </main>

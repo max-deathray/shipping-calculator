@@ -77,11 +77,7 @@ export const calculateShippingRateMags = (magCount: number, zone: string) => {
 
   const breakdownWithCosts = addCostsToBreakdown(breakdown, zone);
 
-  console.log({ breakdownWithCosts });
-
   const rates = sumUpCosts(breakdownWithCosts);
-
-  console.log("Mag rates", { rates });
 
   return rates;
 };

@@ -94,8 +94,6 @@ export const sumUpCosts = (breakdown: Array<BreakdownObject>) => {
     }
   });
 
-  console.log({ rates });
-
   return rates;
 };
 
@@ -109,8 +107,6 @@ export const calculateShippingRateBottles = (
   const breakdownWithCosts = addCostsToBreakdown(breakdown, zone);
 
   const rates = sumUpCosts(breakdownWithCosts);
-
-  console.log("Bottle rates", { rates });
 
   return rates;
 };
