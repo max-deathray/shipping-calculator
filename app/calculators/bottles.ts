@@ -25,7 +25,7 @@ type BreakdownWithCosts = {
 
 type BreakdownObject = Record<string, BreakdownWithCosts>;
 
-const determineBreakdown = (bottleCount: number) => {
+export const determineBreakdown = (bottleCount: number) => {
   let count = bottleCount;
   const groups = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
