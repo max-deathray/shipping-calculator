@@ -64,32 +64,32 @@ const Home = () => {
 
             const magTotal = calculateShippingRateMags(
               Number(magCount),
-              `${zone}`
+              `${zone}`,
             );
             const bottleTotal = calculateShippingRateBottles(
               Number(bottleCount),
-              `${zone}`
+              `${zone}`,
             );
 
             setShippingRate({
               ...((bottleTotal.standard || magTotal.standard) && {
                 standard: (magTotal.standard || currency("")).add(
-                  bottleTotal.standard || currency("")
+                  bottleTotal.standard || currency(""),
                 ),
               }),
               ...((magTotal.express || bottleTotal.express) && {
                 express: (magTotal.express || currency("")).add(
-                  bottleTotal.express || currency("")
+                  bottleTotal.express || currency(""),
                 ),
               }),
               ...((magTotal.twoDay || bottleTotal.twoDay) && {
                 twoDay: (magTotal.twoDay || currency("")).add(
-                  bottleTotal.twoDay || currency("")
+                  bottleTotal.twoDay || currency(""),
                 ),
               }),
               ...((magTotal.overnight || bottleTotal.overnight) && {
                 overnight: (magTotal.overnight || currency("")).add(
-                  bottleTotal.overnight || currency("")
+                  bottleTotal.overnight || currency(""),
                 ),
               }),
             });
@@ -118,7 +118,6 @@ const Home = () => {
               <TextField
                 id="bottle-count"
                 label="Bottles"
-                className={styles.input}
                 value={bottleCount}
                 disabled={!stateData || !validState}
                 onChange={(e) => {
@@ -132,7 +131,6 @@ const Home = () => {
                 label="Mags"
                 value={magCount}
                 disabled={!stateData || !validState}
-                className={styles.input}
                 onChange={(e) => {
                   setMagCount(e.target.value.replace(/\D+/g, ""));
                   setShippingRate(null);
@@ -213,6 +211,7 @@ const Home = () => {
         Start over
       </Button>
       <div />
+      <p className={styles.updateNote}>Last Updated January 2026</p>
     </main>
   );
 };
