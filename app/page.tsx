@@ -1,5 +1,7 @@
 "use client";
+
 import { useState, useEffect } from "react";
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import currency from "currency.js";
 import { InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -10,6 +12,7 @@ import { timeInTransitByState, StateData, states } from "./data/stateData";
 import { stateToZone } from "./data/stateToZone";
 import { calculateShippingRateBottles, Rates } from "./calculators/bottles";
 import { calculateShippingRateMags } from "./calculators/mags";
+
 import styles from "./page.module.css";
 
 const Home = () => {
@@ -64,32 +67,32 @@ const Home = () => {
 
             const magTotal = calculateShippingRateMags(
               Number(magCount),
-              `${zone}`
+              `${zone}`,
             );
             const bottleTotal = calculateShippingRateBottles(
               Number(bottleCount),
-              `${zone}`
+              `${zone}`,
             );
 
             setShippingRate({
               ...((bottleTotal.standard || magTotal.standard) && {
                 standard: (magTotal.standard || currency("")).add(
-                  bottleTotal.standard || currency("")
+                  bottleTotal.standard || currency(""),
                 ),
               }),
               ...((magTotal.express || bottleTotal.express) && {
                 express: (magTotal.express || currency("")).add(
-                  bottleTotal.express || currency("")
+                  bottleTotal.express || currency(""),
                 ),
               }),
               ...((magTotal.twoDay || bottleTotal.twoDay) && {
                 twoDay: (magTotal.twoDay || currency("")).add(
-                  bottleTotal.twoDay || currency("")
+                  bottleTotal.twoDay || currency(""),
                 ),
               }),
               ...((magTotal.overnight || bottleTotal.overnight) && {
                 overnight: (magTotal.overnight || currency("")).add(
-                  bottleTotal.overnight || currency("")
+                  bottleTotal.overnight || currency(""),
                 ),
               }),
             });
@@ -118,7 +121,6 @@ const Home = () => {
               <TextField
                 id="bottle-count"
                 label="Bottles"
-                className={styles.input}
                 value={bottleCount}
                 disabled={!stateData || !validState}
                 onChange={(e) => {
@@ -132,7 +134,6 @@ const Home = () => {
                 label="Mags"
                 value={magCount}
                 disabled={!stateData || !validState}
-                className={styles.input}
                 onChange={(e) => {
                   setMagCount(e.target.value.replace(/\D+/g, ""));
                   setShippingRate(null);
@@ -152,9 +153,12 @@ const Home = () => {
           {stateData && !validState ? <p>No shipments allowed</p> : null}
           {stateData && validState ? (
             <>
-              <div>
-                <h5>Shipping to {stateData.state}</h5>
-                {stateData.daysInTransit} {daysInTransitCopy} in transit
+              <div className={styles.shippingMeta}>
+                <span className={styles.eyebrow}>Shipping to</span>
+                <h4 className={styles.destination}>{stateData.state}</h4>
+                <p className={styles.transit}>
+                  {stateData.daysInTransit} {daysInTransitCopy} in transit
+                </p>
               </div>
               {stateData.notes ? (
                 <div className={styles.notes}>{stateData.notes}</div>
@@ -164,18 +168,15 @@ const Home = () => {
         </div>
         {shippingRate?.standard ? (
           <div className={styles.rate}>
-            <p>
-              Standard Rate:{" "}
-              <span className={styles.bold}>
+            <div className={styles.rateRow}>
+              <span className={styles.rateLabel}>Standard</span>
+              <span className={styles.rateValue}>
                 {shippingRate.standard.format()}
               </span>
-            </p>
-            <p>
-              with Tax:{" "}
-              <span className={styles.bold}>
-                {shippingRate.standard.multiply(1.08875).format()}
-              </span>
-            </p>
+            </div>
+            <div className={styles.rateSub}>
+              with tax {shippingRate.standard.multiply(1.08875).format()}
+            </div>
             {shippingRate?.overnight ? (
               <Button
                 style={{
@@ -213,6 +214,13 @@ const Home = () => {
         Start over
       </Button>
       <div />
+      <footer className={styles.utilityFooter}>
+        <span className={styles.utilityIcon}>
+          <a href="/operations" aria-label="Operations">
+            <BuildOutlinedIcon fontSize="small" />
+          </a>
+        </span>
+      </footer>
     </main>
   );
 };
