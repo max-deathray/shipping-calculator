@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import currency from "currency.js";
 import { InputLabel, MenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -11,6 +12,7 @@ import { timeInTransitByState, StateData, states } from "./data/stateData";
 import { stateToZone } from "./data/stateToZone";
 import { calculateShippingRateBottles, Rates } from "./calculators/bottles";
 import { calculateShippingRateMags } from "./calculators/mags";
+
 import styles from "./page.module.css";
 
 const Home = () => {
@@ -212,7 +214,13 @@ const Home = () => {
         Start over
       </Button>
       <div />
-      <p className={styles.updateNote}>Last Updated January 2026</p>
+      <footer className={styles.utilityFooter}>
+        <span className={styles.utilityIcon}>
+          <a href="/operations" aria-label="Operations">
+            <BuildOutlinedIcon fontSize="small" />
+          </a>
+        </span>
+      </footer>
     </main>
   );
 };

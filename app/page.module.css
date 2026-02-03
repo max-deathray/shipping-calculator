@@ -1,29 +1,25 @@
+/* layout */
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px 20px;
   min-height: 100vh;
-  background: #fafafa;
   font-family:
     "Inter Tight", __Inter_f367f3, __Inter_Fallback_f367f3, system-ui,
     sans-serif;
 }
 
-@media (max-width: 700px) {
-  .main {
-    padding: 1.5rem 1rem;
-  }
-}
-
 /* Mobile */
+
 @media (max-width: 700px) {
   .main {
     padding: 0;
   }
 }
 
-/* Tablet and Smaller Desktop */
+/* animation */
 
 @keyframes rotate {
   from {
@@ -33,6 +29,8 @@
     transform: rotate(0deg);
   }
 }
+
+/* form */
 
 .tool {
   display: flex;
@@ -44,6 +42,8 @@
   flex-direction: column;
   gap: 12px;
 }
+
+/* data card */
 
 .data {
   width: 300px;
@@ -60,53 +60,16 @@
   margin: 0.2rem 0;
 }
 
-.shippingNotes + .rate {
-  margin-top: 1rem;
-}
-
-.rate {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-
-.expeditedNotAvailable {
-  font-size: 10px;
-  color: #6b7280; /* muted gray */
-}
-
-.expeditedRates {
-  margin-top: 10px;
-}
+/* header */
 
 .header {
   margin-bottom: 1.25rem;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  font-family:
-    "Inter Tight", __Inter_f367f3, __Inter_Fallback_f367f3, system-ui,
-    sans-serif;
-  font-weight: 600; /* or 700 if you want a bit more authority */
 }
 
-.updateNote {
-  position: fixed;
-  bottom: 8px;
-  right: 10px;
-  font-size: 11px;
-  color: #888;
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Hide on tablet + mobile */
-@media (max-width: 768px) {
-  .updateNote {
-    display: none;
-  }
-}
+/* shipping meta */
 
 .shippingMeta {
   margin-bottom: 12px;
@@ -116,14 +79,13 @@
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #6b7280; /* muted gray */
+  color: #6b7280;
 }
 
 .destination {
   margin: 2px 0;
   font-size: 18px;
   font-weight: 500;
-  margin-bottom: 2px;
 }
 
 .transit {
@@ -134,7 +96,18 @@
 .notes {
   font-size: 13px;
   color: #6b7280;
-  font-style: normal;
+}
+
+/* rates */
+
+.shippingNotes + .rate {
+  margin-top: 1rem;
+}
+
+.rate {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 
 .rateRow {
@@ -159,6 +132,11 @@
   margin-top: 2px;
 }
 
+.expeditedNotAvailable {
+  font-size: 10px;
+  color: #6b7280;
+}
+
 .expeditedRates {
   margin-top: 10px;
   padding-left: 8px;
@@ -169,4 +147,41 @@
 
 .expeditedRates p {
   margin: 4px 0;
+}
+
+/* utility footer */
+
+.utilityFooter {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 12px;
+  color: #9ca3af;
+
+  backdrop-filter: blur(2px);
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.utilityIcon {
+  width: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.utilityIcon a {
+  color: #6b7280;
+  display: inline-flex;
+  transition: color 0.15s ease;
+}
+
+.utilityIcon a:hover {
+  color: #374151;
+  transform: scale(1.1);
 }
