@@ -151,9 +151,12 @@ const Home = () => {
           {stateData && !validState ? <p>No shipments allowed</p> : null}
           {stateData && validState ? (
             <>
-              <div>
-                <h5>Shipping to {stateData.state}</h5>
-                {stateData.daysInTransit} {daysInTransitCopy} in transit
+              <div className={styles.shippingMeta}>
+                <span className={styles.eyebrow}>Shipping to</span>
+                <h4 className={styles.destination}>{stateData.state}</h4>
+                <p className={styles.transit}>
+                  {stateData.daysInTransit} {daysInTransitCopy} in transit
+                </p>
               </div>
               {stateData.notes ? (
                 <div className={styles.notes}>{stateData.notes}</div>
@@ -163,18 +166,15 @@ const Home = () => {
         </div>
         {shippingRate?.standard ? (
           <div className={styles.rate}>
-            <p>
-              Standard Rate:{" "}
-              <span className={styles.bold}>
+            <div className={styles.rateRow}>
+              <span className={styles.rateLabel}>Standard</span>
+              <span className={styles.rateValue}>
                 {shippingRate.standard.format()}
               </span>
-            </p>
-            <p>
-              with Tax:{" "}
-              <span className={styles.bold}>
-                {shippingRate.standard.multiply(1.08875).format()}
-              </span>
-            </p>
+            </div>
+            <div className={styles.rateSub}>
+              with tax {shippingRate.standard.multiply(1.08875).format()}
+            </div>
             {shippingRate?.overnight ? (
               <Button
                 style={{

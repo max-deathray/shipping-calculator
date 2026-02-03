@@ -48,11 +48,12 @@
 .data {
   width: 300px;
   max-width: 90vw;
-  min-height: 300px;
-  padding: 24px;
+  min-height: 340px;
+  padding: 12px;
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   background: #fff;
+  line-height: 1.5;
 }
 
 .data p {
@@ -69,13 +70,9 @@
   border-top: 1px solid #eee;
 }
 
-.notes {
-  font-size: 12px;
-  font-style: italic;
-}
-
 .expeditedNotAvailable {
   font-size: 10px;
+  color: #6b7280; /* muted gray */
 }
 
 .expeditedRates {
@@ -91,10 +88,6 @@
     "Inter Tight", __Inter_f367f3, __Inter_Fallback_f367f3, system-ui,
     sans-serif;
   font-weight: 600; /* or 700 if you want a bit more authority */
-}
-
-.bold {
-  font-weight: bold;
 }
 
 .updateNote {
@@ -113,4 +106,67 @@
   .updateNote {
     display: none;
   }
+}
+
+.shippingMeta {
+  margin-bottom: 12px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280; /* muted gray */
+}
+
+.destination {
+  margin: 2px 0;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.transit {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.notes {
+  font-size: 13px;
+  color: #6b7280;
+  font-style: normal;
+}
+
+.rateRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.rateLabel {
+  font-size: 14px;
+  color: #374151;
+}
+
+.rateValue {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.rateSub {
+  font-size: 13px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.expeditedRates {
+  margin-top: 10px;
+  padding-left: 8px;
+  font-size: 14px;
+  color: #374151;
+  border-left: 2px solid #e5e7eb;
+}
+
+.expeditedRates p {
+  margin: 4px 0;
 }
