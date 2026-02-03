@@ -2,9 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 1.5rem;
+  padding: 40px 20px;
   min-height: 100vh;
   background: #fafafa;
+  font-family:
+    "Inter Tight", __Inter_f367f3, __Inter_Fallback_f367f3, system-ui,
+    sans-serif;
 }
 
 @media (max-width: 700px) {
@@ -46,11 +49,10 @@
   width: 300px;
   max-width: 90vw;
   min-height: 300px;
-  padding: 1.25rem;
+  padding: 24px;
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   background: #fff;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.04);
 }
 
 .data p {
@@ -85,6 +87,10 @@
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  font-family:
+    "Inter Tight", __Inter_f367f3, __Inter_Fallback_f367f3, system-ui,
+    sans-serif;
+  font-weight: 600; /* or 700 if you want a bit more authority */
 }
 
 .bold {
